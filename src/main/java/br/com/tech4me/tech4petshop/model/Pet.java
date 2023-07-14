@@ -8,15 +8,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import br.com.tech4me.tech4petshop.shared.PetDto;
 import br.com.tech4me.tech4petshop.shared.PetDtoListagem;
 
-@Document("Pet")
+@Document("petshop")
 public class Pet {
    @Id
-private String Id;
+private String id;
+
 public String getId() {
-    return Id;
+    return id;
 }
+
 public void setId(String id) {
-    Id = id;
+    id = id;
 }
 private String nome;
 private String raca;
@@ -27,7 +29,7 @@ private List<String> procedimentos;
 public Pet() {}
 
   public Pet(PetDto dto) {
-    this.Id = dto.id();
+    this.id = dto.id();
     this.nome = dto.nome();
     this.raca = dto.raca();
     this.AnodeNascimento = dto.AnodeNascimento();
@@ -65,8 +67,6 @@ public List<String> getProcedimentos() {
 public void setProcedimentos(List<String> procedimentos) {
     this.procedimentos = procedimentos;
 }
-public static boolean isPresent() {
-	return false;
-}
+
 
 }

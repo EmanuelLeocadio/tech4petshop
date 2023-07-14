@@ -28,20 +28,17 @@ public class PetServiceImpl implements Petservice{
 
     @Override
     public Optional<PetDto> obterPorId(String id) {
-
-       Optional<Pet> pet = repositorio.findById(id);
-
-       if(pet.isPresent()){
+      Optional<Pet> pet = repositorio.findById(id);
+  
+      if (pet.isPresent()){
         return Optional.of(new PetDto(pet.get().getId(), 
-        pet.get().getNome(), pet.get().getRaca(),
-        pet.get().getAnodeNascimento(), pet.get().getVacinado(),
-        pet.get().getProcedimentos()));
-
-    }else{
+          pet.get().getNome(), pet.get().getRaca(),
+          pet.get().getAnodeNascimento(), pet.get().getVacinado(),
+          pet.get().getProcedimentos()));
+      } else {
         return Optional.empty();
+      }
     }
-       }
-       
     @Override
     public PetDto cadastrar(PetDto dto) {
        Pet pet = new Pet(dto);
@@ -54,15 +51,22 @@ public class PetServiceImpl implements Petservice{
 
     @Override
     public Optional<PetDto> atualizarPorId(String id, PetDto dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atualizarPorId'");
-    }
+        Optional<Pet> pet = repositorio.findById(id);
 
-    @Override
-    public void excluirPorId(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'excluirPorId'");
-    }
+        if (pet.isPresent()) {
+          Pet petAtualizar = new Pet(dto);
+          petAtualizar.setId(id);
+          repositorio.save(petAtualizar);
+          return Optional.of(new PetDto(petAtualizar.getId(), petAtualizar.getNome(), petAtualizar.getRaca(), 
+          petAtualizar.getAnodeNascimento(), petAtualizar.getVacinado(), petAtualizar.getProcedimentos()));
+        } else
+          return Optional.empty();
+      }
+    
+        @Override
+  public void excluirPorId(String id) {
+    repositorio.deleteById(id);
+  }
 }
    
 
